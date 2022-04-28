@@ -1,36 +1,46 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { arrayRemove, getFirestore } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDzCyJmpwWVE11doZJCx1dotLwfc5SqHFA",
-  authDomain: "team-demo-a32c6.firebaseapp.com",
-  projectId: "team-demo-a32c6",
-  storageBucket: "team-demo-a32c6.appspot.com",
-  messagingSenderId: "389144772804",
-  appId: "1:389144772804:web:398a765f8f036911a54991",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+import app from "./firebase";
 
 const db = getFirestore(app);
 function App() {
-  const querySnapshot = getDocs(collection(db, "users")).then((data) => {
-    return (
-      <div className="App">
-        <h1>
-          {data.forEach((doc) => {
-            return `${doc.id} :::: ${JSON.stringify(doc.data())}`;
-          })}
-        </h1>
-      </div>
-    );
-  });
+  const [queryData, setQueryData] = useState([]);
+
+  useEffect(() => {
+    getDocs(collection(db, "users")).then((data) => {
+      console.log("DATA", data);
+      setQueryData(data);
+    });
+  }, []);
+
+  console.log("QUERY", queryData);
+  console.log("ARRAY", Array.isArray(queryData));
+  // queryData.forEach((doc) => {
+  //   console.log(`${doc.id} => ${doc.data()}`);
+  // });
+
+  return (
+    <>
+      <h1>TEST</h1>
+      {queryData.map((doc) => {
+        console.log(`DOC ID VALUE:::: ${JSON.stringify(doc.data())}`);
+        ///
+        return <h2>DOC ID:::{doc.id}</h2>;
+        // return "SOMETHING";
+      })}
+    </>
+  );
+
+  // querySnapshot.then((data) => {
+  //   data.forEach((doc) => {
+  //     console.log(`${doc.id} :::: ${JSON.stringify(doc.data())}`);
+  //   });
+  // });
 }
 
 export default App;
