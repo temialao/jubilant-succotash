@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import app from "./firebase";
 
 const db = getFirestore(app);
+
 function App() {
   const [queryData, setQueryData] = useState([]);
 
