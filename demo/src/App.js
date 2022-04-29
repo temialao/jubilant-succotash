@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 import { db } from "./firebase";
+import Input from "./component/Input";
 
 function App() {
   const [queryData, setQueryData] = useState([]);
@@ -31,6 +32,7 @@ function App() {
           );
         })}
       </ul>
+      <Input />
     </>
   );
 }
